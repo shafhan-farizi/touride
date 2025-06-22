@@ -1,0 +1,186 @@
+/* Font setup */
+body {
+  font-family: 'Raleway', sans-serif;
+  color: #333;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+.main-header {
+  background-color: #0c1b33;
+  padding: 1rem 0;
+}
+
+.main-header .logo {
+  color: #fff;
+  font-weight: bold;
+  font-size: 1.6rem;
+  font-family: 'Segoe UI', sans-serif;
+  text-decoration: none;
+}
+
+.navbar-links a {
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1rem;
+  margin-left: 25px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #f4d03f;
+}
+
+/* Dropdown Profile */
+.dropdown-menu .dropdown-item {
+  font-size: 0.95rem;
+  padding: 10px 20px;
+  color: #0c1b33;
+  transition: background 0.2s ease;
+  white-space: nowrap; 
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #f4f4f4;
+  color: #0c1b33;
+}
+
+.dropdown-divider {
+  margin: 0.5rem 0;
+}
+
+.dropdown-menu .text-danger {
+  color: #d9534f !important;
+  font-weight: 500;
+}
+
+
+/* Hero Section */
+.hero-section {
+  background: url('https://i.pinimg.com/736x/b5/f8/b6/b5f8b6584803482fdce42143f7a0ecb7.jpg') no-repeat center center/cover;
+  height: 90vh;
+  color: #fff;
+  position: relative;
+}
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(12, 27, 51, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0c1b33;
+}
+
+/* Car Cards */
+.card {
+  border: none;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #0c1b33;
+}
+
+.card-text {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Our Services */
+.our-services {
+  background-color: #f8f9fa;
+}
+
+.service-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h4 {
+  font-size: 1.2rem;
+  color: #0c1b33;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Footer */
+.footer {
+  background-color: #0c1b33;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.about-us {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.about-us p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.testimonials .card-text {
+  font-style: italic;
+  color: #555;
+}
+
+.testimonials .card-footer img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}

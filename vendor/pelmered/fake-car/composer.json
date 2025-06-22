@@ -1,0 +1,68 @@
+{
+    "name": "pelmered/fake-car",
+    "type": "library",
+    "description": "Fake-Car is a Faker provider that generates fake car data for you.",
+    "keywords": [
+        "faker",
+        "car",
+        "vehicle",
+        "fake-car",
+        "car-faker"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Peter Elmered",
+            "email": "peter@elmered.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "fakerphp/faker": "^1.10"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.1",
+        "pestphp/pest": "^3.0",
+        "pestphp/pest-plugin-drift": "3.x-dev",
+        "phpstan/phpstan": "^1.12",
+        "laravel/pint": "^1.18",
+        "pestphp/pest-plugin-type-coverage": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Faker\\Provider\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "FakeCar\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "lint": [
+            "composer phpstan",
+            "composer pint"
+        ],
+        "phpstan": "vendor/bin/phpstan analyse src --level=8",
+        "pint": "vendor/bin/pint",
+        "test": [
+            "./vendor/bin/pest"
+        ],
+        "test-coverage": [
+            "./vendor/bin/pest --coverage"
+        ],
+        "types": [
+            "./vendor/bin/pest --type-coverage"
+        ],
+        "all": [
+            "composer run test-coverage && composer run types && composer run lint"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
+}
