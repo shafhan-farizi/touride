@@ -38,6 +38,7 @@ return array(
     'App\\Http\\Controllers\\EmailController' => $baseDir . '/app/Http/Controllers/EmailController.php',
     'App\\Http\\Controllers\\NotificationController' => $baseDir . '/app/Http/Controllers/NotificationController.php',
     'App\\Http\\Controllers\\UsersController' => $baseDir . '/app/Http/Controllers/UsersController.php',
+    'App\\Http\\Middleware\\IsAdmin' => $baseDir . '/app/Http/Middleware/IsAdmin.php',
     'App\\Livewire\\Actions\\Logout' => $baseDir . '/app/Livewire/Actions/Logout.php',
     'App\\Livewire\\Auth\\ConfirmPassword' => $baseDir . '/app/Livewire/Auth/ConfirmPassword.php',
     'App\\Livewire\\Auth\\ForgotPassword' => $baseDir . '/app/Livewire/Auth/ForgotPassword.php',

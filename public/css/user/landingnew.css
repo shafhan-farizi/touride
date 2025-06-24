@@ -7,6 +7,10 @@ body {
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* Navbar */
 .main-header {
   background-color: #0c1b33;
@@ -58,6 +62,25 @@ body {
   font-weight: 500;
 }
 
+@media screen and (max-width: 768px) {
+  .bell {
+    margin-left: -15px;
+  }
+
+  .profile-butt {
+    margin-left: 10px;
+  }
+
+  .login-butt {
+    margin-left: 0 !important;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .navbar-expand-lg .navbar-collapse.collapse:not(.show) {
+        visibility: visible !important;
+    }
+}
 
 /* Hero Section */
 .hero-section {

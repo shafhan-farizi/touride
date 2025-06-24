@@ -1,4 +1,4 @@
-<div class="dropdown ms-3">
+<div class="dropdown mt-2 ms-3">
     <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center gap-2" type="button"
         data-bs-toggle="dropdown" aria-expanded="false">
         <i class="bi bi-person-circle fs-5"></i>

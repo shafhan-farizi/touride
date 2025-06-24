@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\ImageEntry;
@@ -23,6 +24,7 @@ use Filament\Tables\Grouping\Group;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Storage;
 
 class ManageCarsResource extends Resource
 {
@@ -41,6 +43,27 @@ class ManageCarsResource extends Resource
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Select::make('type')
+                    ->required()
+                    ->options([
+                        'suv' => 'SUV',
+                        'sedan' => 'Sedan',
+                        'hatchback' => 'Hatchback',
+                        'mpv' => 'MPV (Multi-Purpose Vehicle)',
+                        'sport' => 'Sport Car',
+                        'luxury' => 'Luxury Car',
+                        'electric' => 'Electric Car',
+                        'hybrid' => 'Hybrid Car',
+                        'pickup' => 'Pickup Truck',
+                        'van' => 'Van',
+                        'minibus' => 'Minibus',
+                        'convertible' => 'Convertible',
+                        'coupe' => 'Coupe',
+                        'wagon' => 'Station Wagon',
+                    ]),
+                Textarea::make('description')
+                    ->required()
+                    ->maxLength(255),
                 TextInput::make('plate_number')
                     ->required()
                     ->unique(ignoreRecord: true),
@@ -48,15 +71,15 @@ class ManageCarsResource extends Resource
                     ->numeric()
                     ->required()
                     ->minValue(0),
-                Select::make('status')
+                TextInput::make('insurance')
+                    ->numeric()
                     ->required()
-                    ->options([
-                        'available' => 'Available',
-                        'rented' => 'Rented',
-                        'maintanance' => 'Maintanance',
-                    ]),
+                    ->minValue(0),
+                TextInput::make('service_fee')
+                    ->numeric()
+                    ->required()
+                    ->minValue(0),
                 FileUpload::make('image')
-                    ->directory('public')
                     ->label('Car')
                     ->previewable(true)
             ])
@@ -72,6 +95,9 @@ class ManageCarsResource extends Resource
                     ->size(100, 100),
                 TextColumn::make('name')
                     ->label('Car')
+                    ->searchable(),
+                TextColumn::make('type')
+                    ->label('Type')
                     ->searchable(),
                 TextColumn::make('plate_number')
                     ->label('Plate Number')
@@ -114,7 +140,13 @@ class ManageCarsResource extends Resource
                             }),
                     ])->modalWidth(MaxWidth::Large),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->after(function (Cars $record) {
+                        // delete single
+                        if ($record->image) {
+                            Storage::disk('public')->delete($record->image);
+                        }
+                    }),
             ])
             ->defaultSort('updated_at', 'desc');
     }

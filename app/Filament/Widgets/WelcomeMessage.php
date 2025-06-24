@@ -10,6 +10,7 @@ class WelcomeMessage extends Widget
 
     protected int | string | array $columnSpan = [
         'sm' => 12,
-        'md' => 8,
+        'md' => 12,
+        'xl' => 8
     ];
 }

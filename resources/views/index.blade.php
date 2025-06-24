@@ -72,44 +72,36 @@
     <section id="cars" class="car-collection container py-5">
         <h2 class="section-title text-center mb-5">Our Car Collection</h2>
         <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://i.pinimg.com/736x/e0/a6/68/e0a6682eb88c1f82b003111304867024.jpg" class="card-img-top"
-                        alt="Ferrari">
-                    <div class="card-body">
-                        <h5 class="card-title">Ferrari F8</h5>
-                        <p class="card-text">🏎️ Supercar — <span class="text-warning">★★★★★</span><br>Feel the rush
-                            with Ferrari,
-                            Lamborghini, and McLaren.</p>
+            @forelse ($cars as $car)
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ $car->image }}" class="card-img-top" alt="Ferrari">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $car->name }}</h5>
+                            <p class="card-text">{{ $car->type }} —
+                                <span class="text-warning">
+                                    @php
+                                        $full_star = floor($car->review->avg('rating'));
+                                        $has_half_star = $car->review->avg('rating') - $full_star >= 0.5;
+                                    @endphp
+                                    @for ($i = 0; $i < 5; $i++)
+                                        @if ($i < $full_star)
+                                            <i class="fa-solid fa-star"></i>
+                                        @elseif($has_half_star && $i == $full_star)
+                                            <i class="fa-regular fa-star-half-stroke"></i>
+                                        @else
+                                            <i class="fa-regular fa-star"></i>
+                                        @endif
+                                    @endfor
+                                </span>
+                                <br>{{ $car->description }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://i.pinimg.com/736x/e7/d9/6c/e7d96c88e4e70a104cfd1f300dd46515.jpg" class="card-img-top"
-                        alt="Rolls-Royce">
-                    <div class="card-body">
-                        <h5 class="card-title">Rolls-Royce Ghost</h5>
-                        <p class="card-text">🚘 Luxury Sedan — <span class="text-warning">★★★★★</span><br>Experience
-                            pure comfort
-                            from Mercedes to BMW.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="https://i.pinimg.com/736x/ec/8d/f2/ec8df2c7251bb41f16456b440356f252.jpg" class="card-img-top"
-                        alt="Range Rover">
-                    <div class="card-body">
-                        <h5 class="card-title">Range Rover Sport</h5>
-                        <p class="card-text">🚙 Sport SUV — <span class="text-warning">★★★★☆</span><br>Powerful yet
-                            refined models
-                            from Audi and Porsche.</p>
-                    </div>
-                </div>
-            </div>
+            @empty
+                <div class="col-12 text-center text-muted mt-4">No Data.</div>
+            @endforelse
         </div>
     </section>
 
@@ -151,7 +143,8 @@
                             <div class="card swiper-slide">
                                 <div class="card-body">
                                     <div class="d-flex mb-3 gap-3 align-items-center">
-                                        <img src="https://www.bigfootdigital.co.uk/wp-content/uploads/2020/07/image-optimisation-scaled.jpg" alt="" style="width: 70px; height: 70px" class="rounded-circle">
+                                        <img src="https://i.pinimg.com/736x/1d/f1/1c/1df11cbf1369672cf98d2e57eca35781.jpg"
+                                            alt="" style="width: 70px; height: 70px" class="rounded-circle">
                                         <div class="">
                                             <h5 class="card-title">{{ $review->user->name }}</h5>
                                             <h6 class="card-subtitle mb-2 text-muted">
@@ -199,6 +192,7 @@
     <script>
         const swiper = new Swiper('.swiper', {
             loop: true,
+            watchOverflow: true,
             slidesPerView: 3,
             spaceBetween: 15,
             pagination: {

@@ -15,7 +15,8 @@ class BookingSummary extends Widget
 
     protected int | string | array $columnSpan = [
         'sm' => 12,
-        'md' => 4,
+        'md' => 12,
+        'xl' => 4
     ];
 
     public function mount(): void

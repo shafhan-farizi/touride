@@ -163,7 +163,7 @@
                 <span class="text-warning fs-5">
                     @php
                         $full_star = floor($rating);
-                        $has_half_star = ($rating - $full_star) >= 0.5;
+                        $has_half_star = $rating - $full_star >= 0.5;
                     @endphp
                     @for ($i = 0; $i < 5; $i++)
                         @if ($i < $full_star)
@@ -178,13 +178,15 @@
                 <small class="text-muted">({{ $rating }} / 5.0)</small>
             </div>
 
-            @if (!$is_booking)
-                <div class="mt-4">
-                    <a href="{{ route('cars.booking', ['id' => $car->id]) }}" class="btn btn-primary px-4">
-                        Book Now
-                    </a>
-                </div>
-            @endif
+            @auth
+                @if (!$is_booking)
+                    <div class="mt-4">
+                        <a href="{{ route('cars.booking', ['id' => $car->id]) }}" class="btn btn-primary px-4">
+                            Book Now
+                        </a>
+                    </div>
+                @endif
+            @endauth
             <div class="blog-comment mt-4">
                 <h3 class="text-success">Comments</h3>
                 <hr />
@@ -192,27 +194,32 @@
                     <ul class="comments">
                         @forelse ($reviews as $review)
                             <li class="clearfix">
-                                <img src="https://bootdey.com/img/Content/user_1.jpg" class="avatar" alt="">
+                                <img src="https://i.pinimg.com/736x/1d/f1/1c/1df11cbf1369672cf98d2e57eca35781.jpg" class="avatar" alt="">
                                 <div class="post-comments">
-                                    <p class="meta">{{ date('m d, Y', strtotime($review->created_at)) }} <span class="name">{{ $review->user->name }}</span> says : <i class="pull-right"></i></p>
+                                    <p class="meta">{{ date('m d, Y', strtotime($review->created_at)) }} <span
+                                            class="name">{{ $review->user->name }}</span> says : <i
+                                            class="pull-right"></i></p>
                                     <p>
                                         {{ $review->description }}
                                     </p>
                                 </div>
-
-                                {{-- <ul class="comments">
-                                <li class="clearfix">
-                                    <img src="https://bootdey.com/img/Content/user_3.jpg" class="avatar" alt="">
-                                    <div class="post-comments">
-                                        <p class="meta">Dec 20, 2014 <a href="#">JohnDoe</a> says : <i
-                                                class="pull-right"><a href="#"><small>Reply</small></a></i></p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                            Etiam a sapien odio, sit amet
-                                        </p>
-                                    </div>
-                                </li>
-                            </ul> --}}
+                                @if ($review->reply()->exists())
+                                    <ul class="comments">
+                                        <li class="clearfix">
+                                            <img src="https://i.pinimg.com/736x/9d/6f/6d/9d6f6dededf9c55cd966730d4d45d364.jpg" class="avatar"
+                                                alt="">
+                                            <div class="post-comments">
+                                                <p class="meta">
+                                                    {{ date('m d, Y', strtotime($review->reply->created_at)) }}
+                                                    <span class="name">Atmin</span> says : <i class="pull-right"></i>
+                                                </p>
+                                                <p>
+                                                    {{ $review->reply->description }}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                @endif
                             </li>
                         @empty
                             <div class="card">

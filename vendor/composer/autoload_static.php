@@ -739,6 +739,7 @@ class ComposerStaticInit9929ae0f39b99702c171f9c9695fdcb9
         'App\\Http\\Controllers\\EmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmailController.php',
         'App\\Http\\Controllers\\NotificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/NotificationController.php',
         'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
+        'App\\Http\\Middleware\\IsAdmin' => __DIR__ . '/../..' . '/app/Http/Middleware/IsAdmin.php',
         'App\\Livewire\\Actions\\Logout' => __DIR__ . '/../..' . '/app/Livewire/Actions/Logout.php',
         'App\\Livewire\\Auth\\ConfirmPassword' => __DIR__ . '/../..' . '/app/Livewire/Auth/ConfirmPassword.php',
         'App\\Livewire\\Auth\\ForgotPassword' => __DIR__ . '/../..' . '/app/Livewire/Auth/ForgotPassword.php',

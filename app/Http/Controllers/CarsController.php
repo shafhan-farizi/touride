@@ -10,6 +10,7 @@ use App\Models\Reviews;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -19,16 +20,40 @@ class CarsController extends Controller
 {
     protected $is_booking = false;
 
-    public function isBooking() {
-        $latest_booking = Bookings::latest()->where('user_id', Auth::user()->id)->first() ?? '';
+    public function search(Request $request)
+    {
+        $is_booking = self::isBooking();
 
-        if($latest_booking) {
-            $this->is_booking = $latest_booking->status == 'ongoing' || $latest_booking->status == 'upcoming';
+        if ($request->ajax()) {
+            $output = "";
+            $cars = Cars::where('name', 'LIKE', '%' . $request->search . "%")->get();
+            if ($cars->isNotEmpty()) {
+                foreach ($cars as $car) {
+                    $output .= view('partials.car-card', compact(['car', 'is_booking']))->render();
+                }
+            } else {
+                $output = '<div class="col-12 text-center text-muted mt-4">No cars found matching your search.</div>';
+            }
+        }
+
+        return Response($output);
+    }
+
+    public function isBooking()
+    {
+        if (Auth::check()) {
+            $latest_booking = Bookings::latest()->where('user_id', Auth::user()->id)->first() ?? '';
+
+            if ($latest_booking) {
+                $this->is_booking = $latest_booking->status == 'ongoing' || $latest_booking->status == 'upcoming';
+            }
+
+            return $this->is_booking;
         }
 
         return $this->is_booking;
     }
-    
+
     public function index()
     {
         $cars = Cars::all();
@@ -42,7 +67,7 @@ class CarsController extends Controller
     {
         $car = Cars::find($id);
 
-        $reviews = Reviews::with(['user', 'car'])->where('car_id', $id)->get(); 
+        $reviews = Reviews::with(['user', 'car'])->where('car_id', $id)->orderBy('reviews.created_at', 'desc')->get();
 
         $rating = round(Reviews::where('car_id', $car->id)->get()->avg('rating'), 1);
 
@@ -111,7 +136,8 @@ class CarsController extends Controller
         return redirect()->route('user.history');
     }
 
-    public function confirm($id) {
+    public function confirm($id)
+    {
         $booking = Bookings::find($id);
         $payment_methods = PaymentMethods::where('user_id', 1)->get();
         $user = User::find(Auth::user()->id);
@@ -119,7 +145,8 @@ class CarsController extends Controller
         return view('cars.confirm-booking', compact(['booking', 'payment_methods', 'user']));
     }
 
-    public function confirmed(Request $request, $id) {
+    public function confirmed(Request $request, $id)
+    {
         $booking = Bookings::find($id);
 
         // $booking->update([

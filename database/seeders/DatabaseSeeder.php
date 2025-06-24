@@ -3,8 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\Booking;
+use App\Models\Bookings;
 use App\Models\Cars;
+use App\Models\Payments;
+use App\Models\Replys;
+use App\Models\Reviews;
 use App\Models\User;
+use Faker\Factory as Faker;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
@@ -71,6 +76,17 @@ class DatabaseSeeder extends Seeder
             'address' => fake()->address(),
             'email_verified_at' => now(),
             'password' => Hash::make('e'),
+            'remember_token' => Str::random(10),
+        ]);
+
+        $customer->assignRole('customer');
+        $customer = User::create([
+            'name' => fake()->name(),
+            'email' => 'shafhan.fa@gmail.com',
+            'phone' => fake()->phoneNumber(),
+            'address' => fake()->address(),
+            'email_verified_at' => now(),
+            'password' => Hash::make('f'),
             'remember_token' => Str::random(10),
         ]);
 
@@ -208,8 +224,55 @@ class DatabaseSeeder extends Seeder
             // CarsSeeder::class,
             PaymentMethodsSeeder::class,
             PaymentsSeeder::class,
-            BookingsSeeder::class,
+            // BookingsSeeder::class,
             // ReviewsSeeder::class,
         ]);
+
+        $faker = Faker::create();
+
+        $counter = 0;
+        $payment = Payments::count();
+        $count_user = User::role('customer')->count();
+        $count_car = Cars::count();
+
+        for ($i = 0; $i < $payment; $i++) {
+            Bookings::create([
+                'booking_id' => str_pad($i, 4, '0', STR_PAD_LEFT),
+                'user_id' => $faker->numberBetween(1, $count_user),
+                'payment_id' => $faker->numberBetween(1, $payment),
+                'car_id' => $faker->numberBetween(1, $count_car),
+                'period' => $faker->numberBetween(1, 30),
+                'pickup_date' => $faker->dateTimeBetween('now', '+1 month'),
+                'return_date' => $faker->dateTimeBetween('+1 month', '+2 months'),
+                'pickup_location' => $faker->city(),
+                'dropoff_location' => $faker->city(),
+                'status' => 'confirmed',
+            ]);
+        }
+
+        $count_booking = Bookings::count();
+
+        for ($x = 0; $x < $count_booking; $x++) {
+            Reviews::create([
+                'user_id' => $faker->numberBetween(1, $count_user),
+                'car_id' => $faker->numberBetween(1, $count_car),
+                'booking_id' => $faker->numberBetween(1, $count_booking),
+                'rating' => $faker->numberBetween(1, 5),
+                'description' => $faker->sentence()
+            ]);
+        }
+
+        $count_reviews = Reviews::count();
+
+        for ($y = 0; $y < $count_reviews; $y++) {
+            $reply = Replys::create([
+                'description' => $faker->randomElement(['Mantap!', 'Terima Kasih!', 'Love uuuu'])
+            ]);
+
+            Reviews::where('id', $y)
+                ->update([
+                    'reply_id' => $reply->id
+                ]);
+        }
     }
 }

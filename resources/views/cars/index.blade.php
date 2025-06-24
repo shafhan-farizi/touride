@@ -113,6 +113,7 @@
             }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('content')
@@ -120,7 +121,7 @@
         <h2 class="text-center mb-4">Explore Our Cars</h2>
 
         <div>
-            <input type="text" id="searchInput" class="form-control" placeholder="Search cars by name or type..." />
+            <input type="text" id="search" class="form-control" placeholder="Search cars by name or type..." />
         </div>
 
         <div class="row mt-3" id="carContainer">
@@ -134,14 +135,36 @@
                             <p class="card-text">Price: Rp.{{ number_format($car->rental_price) }}</p>
                             <a href="{{ route('cars.show', ['id' => $car->id]) }}" class="btn btn-outline-secondary">View
                                 Detail</a>
-                            @if (!$is_booking && $car->status == 'available')
-                                <a href="{{ route('cars.booking', ['id' => $car->id]) }}" class="btn btn-primary mt-2">Book
-                                    Now</a>
-                            @endif
+                            @auth
+                                @if (!$is_booking && $car->status == 'available')
+                                    <a href="{{ route('cars.booking', ['id' => $car->id]) }}" class="btn btn-primary mt-2">Book
+                                        Now</a>
+                                @endif
+                            @endauth
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+
+        $('#search').on('keyup', function() {
+            $value = $(this).val();
+            $.ajax({
+                type: 'get',
+                url: '{{ URL::to('search') }}',
+                data: {
+                    'search': $value
+                },
+                success: function(data) {
+                    $('#carContainer').html(data);
+                }
+            });
+        })
+    </script>
 @endsection

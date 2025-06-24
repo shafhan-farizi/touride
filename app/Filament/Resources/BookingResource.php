@@ -82,7 +82,7 @@ class BookingResource extends Resource
                         TextInput::make('status'),
                     ]),
                 Tables\Actions\EditAction::make()
-                    ->label('confirm')
+                    ->label('update status')
                     ->color('success')
                     ->modalHeading('Change Status Bookings')
                     ->form([

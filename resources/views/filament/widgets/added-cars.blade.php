@@ -34,10 +34,10 @@
                             {{ $car->plate_number }}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $car->status }}
+                            Rp.{{ number_format($car->rental_price) }}
                         </td>
                         <td class="px-6 py-4">
-                            Rp.{{ number_format($car->rental_price) }}
+                            {{ $car->status }}
                         </td>
                     </tr>
                     @empty
